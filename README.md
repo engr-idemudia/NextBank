@@ -14,11 +14,6 @@
 
   <h3 align="center">A Fintech Bank Application</h3>
 
-   <div align="center">
-     Build this project step by step with our detailed tutorial on <a href="https://www.youtube.com/@javascriptmastery/videos" target="_blank"><b>JavaScript Mastery</b></a> YouTube. Join the JSM family!
-    </div>
-</div>
-
 ## 📋 <a name="table">Table of Contents</a>
 
 1. 🤖 [Introduction](#introduction)
@@ -29,21 +24,9 @@
 6. 🔗 [Assets](#links)
 7. 🚀 [More](#more)
 
-## 🚨 Tutorial
-
-This repository contains the code corresponding to an in-depth tutorial available on our YouTube channel, <a href="https://www.youtube.com/@javascriptmastery/videos" target="_blank"><b>JavaScript Mastery</b></a>. 
-
-If you prefer visual learning, this is the perfect resource for you. Follow our tutorial to learn how to build projects like these step-by-step in a beginner-friendly manner!
-
-<a href="https://youtu.be/PuOVqP_cjkE?feature=shared" target="_blank"><img src="https://github.com/sujatagunale/EasyRead/assets/151519281/1736fca5-a031-4854-8c09-bc110e3bc16d" /></a>
-
 ## <a name="introduction">🤖 Introduction</a>
 
-Built with Next.js, Horizon is a financial SaaS platform that connects to multiple bank accounts, displays transactions in real-time, allows users to transfer money to other platform users, and manages their finances altogether. 
-
-If you're getting started and need assistance or face any bugs, join our active Discord community with over **34k+** members. It's a place where people help each other out.
-
-<a href="https://discord.com/invite/n6EdbFJ" target="_blank"><img src="https://github.com/sujatagunale/EasyRead/assets/151519281/618f4872-1e10-42da-8213-1d69e486d02e" /></a>
+Built with Next.js, Horizon is a financial SaaS platform that connects to multiple bank accounts, displays transactions in real-time, allows users to transfer money to other platform users, and manages their finances altogether.
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
@@ -76,7 +59,7 @@ If you're getting started and need assistance or face any bugs, join our active 
 
 👉 **Responsiveness**: Ensures the application adapts seamlessly to various screen sizes and devices, providing a consistent user experience across desktop, tablet, and mobile platforms.
 
-and many more, including code architecture and reusability. 
+and many more, including code architecture and reusability.
 
 ## <a name="quick-start">🤸 Quick Start</a>
 
@@ -93,7 +76,7 @@ Make sure you have the following installed on your machine:
 **Cloning the Repository**
 
 ```bash
-git clone https://github.com/adrianhajdin/banking.git
+https://github.com/engr-idemudia/banking_app
 cd banking
 ```
 
@@ -213,8 +196,9 @@ export const exchangePublicToken = async ({
       processor: "dwolla" as ProcessorTokenCreateRequestProcessorEnum,
     };
 
-    const processorTokenResponse =
-      await plaidClient.processorTokenCreate(request);
+    const processorTokenResponse = await plaidClient.processorTokenCreate(
+      request
+    );
     const processorToken = processorTokenResponse.data.processor_token;
 
     // Create a funding source URL for the account using the Dwolla customer ID, processor token, and bank name
@@ -436,8 +420,9 @@ export const exchangePublicToken = async ({
       processor: "dwolla" as ProcessorTokenCreateRequestProcessorEnum,
     };
 
-    const processorTokenResponse =
-      await plaidClient.processorTokenCreate(request);
+    const processorTokenResponse = await plaidClient.processorTokenCreate(
+      request
+    );
     const processorToken = processorTokenResponse.data.processor_token;
 
     // Create a funding source URL for the account using the Dwolla customer ID, processor token, and bank name
@@ -584,7 +569,7 @@ export const getBankByAccountId = async ({
   }
 };
 ```
-  
+
 </details>
 
 <details>
@@ -914,8 +899,9 @@ export const createTransfer = async () => {
     },
   };
   try {
-    const transferAuthResponse =
-      await plaidClient.transferAuthorizationCreate(transferAuthRequest);
+    const transferAuthResponse = await plaidClient.transferAuthorizationCreate(
+      transferAuthRequest
+    );
     const authorizationId = transferAuthResponse.data.authorization.id;
 
     const transferCreateRequest: TransferCreateRequest = {
@@ -941,7 +927,6 @@ export const createTransfer = async () => {
 ```
 
 </details>
-
 
 <details>
 <summary><code>BankTabItem.tsx</code></summary>
@@ -1495,7 +1480,7 @@ export const BankDropdown = ({
   );
 };
 ```
-  
+
 </details>
 
 <details>
@@ -1617,13 +1602,3 @@ export const Category = ({ category }: CategoryProps) => {
 ## <a name="links">🔗 Links</a>
 
 Assets used in the project can be found [here](https://drive.google.com/file/d/1TVhdnD97LajGsyaiNa6sDs-ap-z1oerA/view?usp=sharing)
-
-## <a name="more">🚀 More</a>
-
-**Advance your skills with Next.js Pro Course**
-
-Enjoyed creating this project? Dive deeper into our PRO courses for a richer learning experience. They're packed with detailed explanations, cool features, and exercises to boost your skills. Give it a go!
-
-<a href="https://www.jsmastery.pro/ultimate-next-course" target="_blank">
-<img src="https://i.ibb.co/804sPK6/Image-720.png" alt="Project Banner">
-</a>
