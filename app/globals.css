@@ -159,7 +159,14 @@
   }
 
   .profile-banner {
-    @apply h-[120px] w-full bg-gradient-mesh bg-cover bg-no-repeat;
+    @apply h-[120px] w-full bg-cover bg-no-repeat;
+    background-image: linear-gradient(
+      135deg,
+      #1e1b2e 0%,
+      #2d2545 35%,
+      #5b4b8a 70%,
+      #7c6bb0 100%
+    );
   }
 
   .profile {

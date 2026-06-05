@@ -51,15 +51,15 @@ export const ITEMS = [
 
 export const topCategoryStyles = {
   "Food and Drink": {
-    bg: "bg-blue-25",
-    circleBg: "bg-blue-100",
+    bg: "bg-purple-25",
+    circleBg: "bg-purple-100",
     text: {
-      main: "text-blue-900",
-      count: "text-blue-700",
+      main: "text-purple-900",
+      count: "text-purple-700",
     },
     progress: {
-      bg: "bg-blue-100",
-      indicator: "bg-blue-700",
+      bg: "bg-purple-100",
+      indicator: "bg-purple-700",
     },
     icon: "/icons/monitor.svg",
   },
@@ -77,15 +77,15 @@ export const topCategoryStyles = {
     icon: "/icons/coins.svg",
   },
   default: {
-    bg: "bg-pink-25",
-    circleBg: "bg-pink-100",
+    bg: "bg-violet-25",
+    circleBg: "bg-violet-100",
     text: {
-      main: "text-pink-900",
-      count: "text-pink-700",
+      main: "text-violet-900",
+      count: "text-violet-700",
     },
     progress: {
-      bg: "bg-pink-100",
-      indicator: "bg-pink-700",
+      bg: "bg-violet-100",
+      indicator: "bg-violet-700",
     },
     icon: "/icons/shopping-bag.svg",
   },
