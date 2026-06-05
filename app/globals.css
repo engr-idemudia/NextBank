@@ -208,7 +208,7 @@
   }
 
   .transactions-account {
-    @apply flex flex-col justify-between gap-4 rounded-lg border-y bg-blue-600 px-4 py-5 md:flex-row;
+    @apply flex flex-col justify-between gap-4 rounded-lg border-y bg-purple-600 px-4 py-5 md:flex-row;
   }
 
   .transactions-account-balance {
@@ -351,7 +351,7 @@
   }
 
   .footer_email {
-    @apply flex flex-1 flex-col justify-center max-xl:hidden;
+    @apply flex flex-1 flex-col justify-center min-w-0 max-xl:hidden;
   }
 
   .footer_name-mobile {
@@ -363,7 +363,7 @@
   }
 
   .footer_image {
-    @apply relative size-5 max-xl:w-full max-xl:flex max-xl:justify-center max-xl:items-center;
+    @apply relative size-5 shrink-0 max-xl:w-full max-xl:flex max-xl:justify-center max-xl:items-center;
   }
 
   /* Sidebar */
