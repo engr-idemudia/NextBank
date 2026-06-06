@@ -12,8 +12,9 @@ const ibmPlexSerif = IBM_Plex_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "NextBank",
-  description: "NextBank is a modern banking platform for everyone.",
+  title: "NextBank — Secure Fintech Banking Platform",
+  description:
+    "NextBank is a full-stack fintech app to connect bank accounts, track transactions, and transfer funds securely, built with Next.js, Appwrite, Plaid, and Dwolla.",
   icons: {
     icon: "/icons/logo.svg",
   },
