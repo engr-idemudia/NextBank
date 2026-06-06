@@ -10,12 +10,12 @@ export default function RootLayout({
       {children}
       <div className="auth-asset">
         <div>
-          <Image 
-            src="/icons/auth-image.svg"
-            alt="Auth image"
-            width={500}
-            height={500}
-            className="rounded-l-xl object-contain"
+          <Image
+            src="/screenshots/auth-preview.jpg"
+            alt="NextBank dashboard preview"
+            width={1000}
+            height={700}
+            className="rounded-l-xl object-cover"
           />
         </div>
       </div>
