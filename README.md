@@ -30,21 +30,8 @@ The project demonstrates end-to-end integration of third-party financial service
 
 ## Screenshots
 
-**Dashboard**
 
 ![NextBank dashboard](public/screenshots/auth-preview.jpg)
-
-**My Banks**
-
-![My Banks](public/screenshots/my-banks.jpg)
-
-**Transaction History**
-
-![Transaction History](public/screenshots/transaction-history.jpg)
-
-**Transfer Funds**
-
-![Transfer Funds](public/screenshots/transfer-funds.jpg)
 
 ## Key features
 

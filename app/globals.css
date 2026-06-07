@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Dark mode base */
+.dark body {
+  background-color: #000319;
+  color: #e5e7eb;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -382,4 +388,292 @@
   .sidebar-label {
     @apply text-16 font-semibold text-black-2 max-xl:hidden;
   }
+}
+
+/* Dark mode — left sidebar */
+.dark .sidebar {
+  background-color: #0a0a14;
+  border-color: #1f1f2e;
+}
+
+.dark .sidebar-logo {
+  color: #f3f4f6;
+}
+
+.dark .sidebar-label {
+  color: #d1d5db;
+}
+
+.dark .footer_name,
+.dark .footer_name-mobile {
+  background-color: #1f1f2e;
+}
+
+/* Dark mode — footer (name, email, logout) */
+.dark .footer_email h1,
+.dark .footer_email-mobile h1 {
+  color: #f3f4f6 !important;
+}
+
+.dark .footer_email p,
+.dark .footer_email-mobile p {
+  color: #9ca3af !important;
+}
+
+.dark .footer_name p,
+.dark .footer_name-mobile p {
+  color: #f3f4f6 !important;
+}
+
+.dark .footer_image img {
+  filter: invert(1) brightness(1.8);
+}
+
+/* Dark mode — Connect bank (PlaidLink ghost/default) */
+.dark .plaidlink-ghost p,
+.dark .plaidlink-default p {
+  color: #d1d5db !important;
+}
+
+.dark .plaidlink-ghost img,
+.dark .plaidlink-default img {
+  filter: invert(0.85) brightness(1.5);
+}
+
+.dark .plaidlink-ghost:hover {
+  background-color: #1f1f2e !important;
+}
+
+.dark .footer_name p,
+.dark .footer_name-mobile p {
+  color: #f3f4f6 !important;
+}
+
+/* Dark mode — transactions table */
+.dark table thead {
+  background-color: #0a0a14 !important;
+}
+
+.dark table thead th {
+  color: #9ca3af !important;
+}
+
+.dark table tbody tr {
+  background-color: #0a0a14 !important;
+  border-color: #1f1f2e !important;
+}
+
+.dark table tbody tr:hover {
+  background-color: #14141f !important;
+}
+
+/* Transaction name + neutral cells (date, channel) */
+.dark table tbody td {
+  color: #d1d5db;
+}
+
+.dark table tbody td h1 {
+  color: #f3f4f6 !important;
+}
+
+/* Dark mode — main dashboard */
+.dark .header-box-title,
+.dark .total-balance-amount,
+.dark .recent-transactions-label,
+.dark .header-2 {
+  color: #f3f4f6 !important;
+}
+
+.dark .header-box-subtext,
+.dark .total-balance-label {
+  color: #9ca3af !important;
+}
+
+.dark .total-balance {
+  background-color: #0a0a14;
+  border-color: #1f1f2e;
+}
+
+.dark .view-all-btn {
+  background-color: #0a0a14;
+  border-color: #1f1f2e;
+  color: #d1d5db;
+}
+
+.dark .my-banks,
+.dark .transactions,
+.dark .payment-transfer {
+  background-color: #000319;
+}
+
+/* Dark mode — restore amount colours + tinted rows */
+/* Debit rows: faint red tint; credit rows: faint green tint */
+.dark table tbody tr.bg-\[\#FFFBFA\] {
+  background-color: #1a1012 !important;
+}
+
+.dark table tbody tr.bg-\[\#F6FEF9\] {
+  background-color: #0f1714 !important;
+}
+
+/* Restore vivid amount colours (beat the general td rule) */
+.dark table tbody td.text-\[\#f04438\] {
+  color: #ff6b5e !important;
+}
+
+.dark table tbody td.text-\[\#039855\] {
+  color: #34d399 !important;
+}
+
+/* Dark mode — account strip (BankInfo) */
+.dark .bank-info {
+  background-color: #0a0a14 !important;
+  border-color: #1f1f2e;
+}
+
+.dark .bank-info h2 {
+  color: #c4b5fd !important;
+}
+
+.dark .bank-info p {
+  color: #a78bfa !important;
+}
+
+.dark .bank-info figure {
+  background-color: #1f1f2e !important;
+}
+
+/* Dark mode — right sidebar */
+.dark .right-sidebar {
+  background-color: #000319 !important;
+  border-color: #1f1f2e !important;
+}
+
+.dark .profile-banner {
+  background-image: linear-gradient(
+    135deg,
+    #1e1b2e 0%,
+    #2d2545 35%,
+    #5b4b8a 70%,
+    #7c6bb0 100%
+  ) !important;
+}
+
+.dark .profile-img {
+  background-color: #1f1f2e !important;
+  border-color: #0a0a14 !important;
+}
+
+.dark .profile-name {
+  color: #f3f4f6 !important;
+}
+
+.dark .profile-email {
+  color: #9ca3af !important;
+}
+
+/* + Add Bank (PlaidLink addBank variant) */
+.dark .banks h2.text-14,
+.dark .banks button h2 {
+  color: #c4b5fd !important;
+}
+
+.dark .banks button img {
+  filter: invert(0.8) sepia(1) saturate(3) hue-rotate(230deg) brightness(1.1);
+}
+
+/* Dark mode — payment transfer form */
+/* Field separators */
+.dark .payment-transfer form .border-t,
+.dark .payment-transfer form .border-y,
+.dark .payment-transfer_form-details {
+  border-color: #1f1f2e !important;
+}
+
+/* Labels and descriptions */
+.dark .payment-transfer form label {
+  color: #f3f4f6 !important;
+}
+
+.dark .payment-transfer form p {
+  color: #9ca3af !important;
+}
+
+.dark .payment-transfer_form-details h2 {
+  color: #f3f4f6 !important;
+}
+
+/* Inputs and textarea */
+.dark .input-class {
+  background-color: #0a0a14 !important;
+  border-color: #1f1f2e !important;
+  color: #f3f4f6 !important;
+}
+
+.dark .input-class::placeholder {
+  color: #6b7280 !important;
+}
+
+/* Bank dropdown trigger */
+.dark .payment-transfer button[role="combobox"],
+.dark .payment-transfer [class*="bank-dropdown"] {
+  background-color: #0a0a14 !important;
+  border-color: #1f1f2e !important;
+  color: #f3f4f6 !important;
+}
+
+/* Dark mode — bank dropdown open panel (portal) */
+.dark [role="listbox"] {
+  background-color: #0a0a14 !important;
+  border-color: #1f1f2e !important;
+}
+
+.dark [role="listbox"] [role="option"] {
+  color: #f3f4f6 !important;
+  border-color: #1f1f2e !important;
+}
+
+.dark [role="listbox"] [role="option"]:hover,
+.dark [role="listbox"] [role="option"][data-highlighted] {
+  background-color: #1f1f2e !important;
+}
+
+
+/* Dark mode — top categories tiles */
+.dark .banks .space-y-5 > div {
+  background-color: #0a0a14 !important;
+}
+
+.dark .banks .space-y-5 figure {
+  background-color: #1f1f2e !important;
+}
+
+.dark .banks .space-y-5 h2 {
+  color: #f3f4f6 !important;
+}
+
+.dark .banks .space-y-5 h3 {
+  color: #9ca3af !important;
+}
+
+/* Dark mode — auth pages (sign-in / sign-up) */
+.dark .auth-asset {
+  background-color: #0a0a14 !important;
+}
+
+.dark .auth-form header h1,
+.dark .auth-form .text-gray-900 {
+  color: #f3f4f6 !important;
+}
+
+.dark .auth-form .text-black-1 {
+  color: #f3f4f6 !important;
+}
+
+.dark .auth-form p {
+  color: #9ca3af !important;
+}
+
+.dark .auth-form label {
+  color: #f3f4f6 !important;
 }

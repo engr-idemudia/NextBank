@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Footer from "./Footer";
 import PlaidLink from "./PlaidLink";
+import { ThemeToggle } from "./ThemeToggle";
 
 const Sidebar = ({ user }: SiderbarProps) => {
   const pathname = usePathname();
@@ -19,7 +20,7 @@ const Sidebar = ({ user }: SiderbarProps) => {
             src="/icons/logo.svg"
             width={34}
             height={34}
-            alt="Horizon logo"
+            alt="NextBank logo"
             className="size-[24px] max-xl:size-14"
           />
           <h1 className="sidebar-logo">NextBank</h1>
@@ -54,6 +55,10 @@ const Sidebar = ({ user }: SiderbarProps) => {
 
         <PlaidLink user={user} />
       </nav>
+
+      <div className="flex justify-center xl:justify-start px-2 py-2 max-md:hidden">
+        <ThemeToggle />
+      </div>
 
       <Footer user={user} />
     </section>
