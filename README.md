@@ -2,12 +2,14 @@
 
 A full-stack fintech dashboard for connecting real bank accounts, viewing balances and transaction history, and transferring funds between users. Built with Next.js 14 and TypeScript, integrating Appwrite for authentication and data, Plaid for bank connectivity, and Dwolla for ACH transfers.
 
-![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?logo=tailwind-css)
-![Appwrite](https://img.shields.io/badge/Appwrite-F02E65?logo=appwrite&logoColor=white)
-![Plaid](https://img.shields.io/badge/Plaid-000000?logo=plaid)
-![Dwolla](https://img.shields.io/badge/Dwolla-1A1A1A)
+![Next.js](https://img.shields.io/badge/Next.js-14-000000?style=flat&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?style=flat&logo=tailwindcss&logoColor=white)
+![Appwrite](https://img.shields.io/badge/Appwrite-FD366E?style=flat&logo=appwrite&logoColor=white)
+![Plaid](https://img.shields.io/badge/Plaid-111111?style=flat&logo=plaid&logoColor=white)
+![Dwolla](https://img.shields.io/badge/Dwolla-1A1A1A?style=flat)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-A78BFA?style=flat)
 
 ---
 
@@ -28,8 +30,7 @@ NextBank is a single-page banking experience that brings several financial APIs 
 
 The project demonstrates end-to-end integration of third-party financial services, server-side data handling with Appwrite, and a typed, component-driven frontend.
 
-## Screenshots
-
+## Screenshot
 
 ![NextBank dashboard](public/screenshots/auth-preview.jpg)
 
@@ -41,6 +42,7 @@ The project demonstrates end-to-end integration of third-party financial service
 - **My Banks** — a detailed list of all connected accounts.
 - **Transaction history** — paginated, categorised transactions per account.
 - **Payment transfer** — send funds to another user using Dwolla ACH transfers.
+- **Light & dark mode** — a theme toggle built with next-themes, defaulting to a dark interface.
 - **Responsive UI** — a mobile-first interface built with Tailwind CSS that adapts across mobile, tablet, and desktop.
 
 ## Tech stack
@@ -48,7 +50,7 @@ The project demonstrates end-to-end integration of third-party financial service
 | Layer | Technology |
 |---|---|
 | Framework | Next.js 14 (App Router), React, TypeScript |
-| Styling | Tailwind CSS |
+| Styling | Tailwind CSS, next-themes |
 | Auth & data | Appwrite (authentication, database) |
 | Bank connectivity | Plaid |
 | Payments | Dwolla (ACH transfers) |
@@ -75,17 +77,6 @@ Security is treated as a first-class concern, particularly given the financial d
 - **Server-side secret handling.** API keys and access tokens are used only inside server actions and are never exposed to the browser.
 - **Scoped API access.** The Appwrite server key is limited to the minimum scopes required (Auth and Databases).
 - **Sandbox isolation.** Plaid and Dwolla run in sandbox mode, so no production financial data or funds are involved.
-
-## My contributions
-
-This project began as a guided build following the JS Mastery banking tutorial (see Acknowledgements). On top of that foundation, I independently carried out substantial engineering work:
-
-- **Rebuilt the backend on my own infrastructure** — a fresh Appwrite project with `users`, `banks`, and `transactions` collections, and scoped server API keys.
-- **Migrated the Plaid and Dwolla integrations** onto my own sandbox accounts, including credential rotation and the Plaid-Dwolla integration setup.
-- **Fixed an Appwrite 1.9.5 compatibility bug** in `getBank`, switching from a query-based lookup to a direct document fetch.
-- **Hardened the project's security posture** — moved all secrets to environment variables, removed an unused error-monitoring integration, and reduced reported dependency vulnerabilities through targeted, non-breaking upgrades.
-- **Resolved UI defects and improved responsiveness** — corrected React list keys, fixed a null-reference crash on the home route, made the logout control and transactions table responsive across breakpoints, and applied a custom brand identity (logo, colour theme, typography).
-- **Deployed and configured the live site** on Vercel with a custom domain.
 
 ## Getting started
 
@@ -142,17 +133,27 @@ npm run dev
 
 The app will be available at `http://localhost:3000`.
 
-## Project structure## Acknowledgements
+## Project structure
 
-This application was built by following the open banking tutorial by [Adrian Hajdin - JS Mastery](https://github.com/adrianhajdin), and extended with the additional work described above. The original project is MIT-licensed, and that license is preserved in this repository.
+```
+NextBank/
+|-- app/                 # App Router routes (auth + dashboard)
+|   |-- (auth)/          # Sign-in / sign-up
+|   `-- (root)/          # Dashboard, my-banks, transaction-history, payment-transfer
+|-- components/          # Reusable UI components
+|-- lib/
+|   |-- actions/         # Server actions (Appwrite, Plaid, Dwolla)
+|   `-- utils.ts         # Helpers and formatters
+|-- public/              # Static assets (icons, screenshots)
+`-- .env.example         # Environment variable template
+```
 
 ## Author
 
-**Idemudia M. Osaghae** - Software Engineer (backend, fintech, security)
+**Idemudia M. Osaghae** — Software Engineer (backend, fintech, security)
 Tallinn, Estonia
 
 - Portfolio: [idemudia.dev](https://idemudia.dev)
-- GitHub: [engr-idemudia](https://github.com/engr-idemudia)
 
 ## License
 
