@@ -15,6 +15,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Footer from "./Footer";
+import { ThemeToggle } from "./ThemeToggle";
+import PlaidLink from "./PlaidLink";
 
 const MobileNav = ({ user }: MobileNavProps) => {
   const pathname = usePathname();
@@ -83,7 +85,10 @@ const MobileNav = ({ user }: MobileNavProps) => {
                     </SheetClose>
                   );
                 })}
-                USER
+                <div className="flex flex-col items-start gap-4 pt-4">
+                  <PlaidLink user={user} />
+                  <ThemeToggle />
+                </div>
               </nav>
             </SheetClose>
 

@@ -771,3 +771,40 @@
     background-color: transparent;
   }
 }
+
+/* Mobile — narrow slide-out menu + dark theme */
+@media (max-width: 767px) {
+  [role="dialog"][data-state] {
+    width: 70% !important;
+    max-width: 280px !important;
+  }
+}
+.dark [role="dialog"] {
+  background-color: #0a0a14 !important;
+}
+.dark [role="dialog"] h1,
+.dark [role="dialog"] p {
+  color: #f3f4f6 !important;
+}
+
+
+/* Mobile menu footer — stacked so nothing competes for width */
+[role="dialog"] .footer {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0.75rem;
+}
+[role="dialog"] .footer_email-mobile {
+  flex: none !important;
+  min-width: 0;
+  max-width: 100%;
+}
+[role="dialog"] .footer_email-mobile h1,
+[role="dialog"] .footer_email-mobile p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dark [role="dialog"] .footer_email-mobile h1 { color: #f3f4f6 !important; }
+.dark [role="dialog"] .footer_email-mobile p { color: #9ca3af !important; }
