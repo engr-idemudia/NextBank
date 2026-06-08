@@ -677,3 +677,97 @@
 .dark .auth-form label {
   color: #f3f4f6 !important;
 }
+
+/* Mobile — prevent horizontal overflow */
+.home-content {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.recent-transactions {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Mobile — stack home layout, contain table */
+@media (max-width: 1279px) {
+  .home {
+    flex-direction: column;
+  }
+  .home-content {
+    width: 100%;
+    max-width: 100vw;
+  }
+  .recent-transactions {
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+
+/* Mobile — force transactions table to scroll inside its box */
+@media (max-width: 1279px) {
+  .recent-transactions table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+}
+
+/* Mobile — contain shadcn table */
+@media (max-width: 1279px) {
+  table.caption-bottom {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+
+/* Mobile — hard-constrain content chain to viewport */
+@media (max-width: 1279px) {
+  .home-content,
+  .recent-transactions,
+  .recent-transactions [role="tabpanel"] {
+    max-width: calc(100vw - 2.5rem) !important;
+    min-width: 0 !important;
+  }
+}
+
+/* Mobile — tighten table columns so Status shows in initial view */
+@media (max-width: 1279px) {
+  .recent-transactions table td:first-child,
+  .recent-transactions table th:first-child {
+    max-width: 120px;
+  }
+  .recent-transactions table th,
+  .recent-transactions table td {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+}
+
+/* Mobile — remove gap under top bar */
+@media (max-width: 767px) {
+  .root-layout {
+    height: auto;
+    padding: 0.75rem 1.25rem;
+  }
+}
+
+/* Mobile — reduce content top padding */
+@media (max-width: 767px) {
+  .home-content {
+    padding-top: 1rem;
+  }
+}
+
+/* Mobile — blend top bar into content */
+@media (max-width: 767px) {
+  .root-layout {
+    box-shadow: none;
+    background-color: transparent;
+  }
+}
