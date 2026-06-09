@@ -108,6 +108,15 @@ const AuthForm = ({ type }: { type: string }) => {
           </h1>
         </div>
       </header>
+
+      {type === "sign-in" && !user && (
+        <div className="rounded-lg border border-purple-300 bg-purple-50 px-4 py-3 text-14 dark:border-purple-900 dark:bg-purple-950/40">
+          <p className="font-semibold text-purple-700 dark:text-purple-300">Demo login (Plaid sandbox)</p>
+          <p className="mt-1 text-gray-700 dark:text-gray-300">Email: <span className="font-medium">demo@nextbank.dev</span></p>
+          <p className="text-gray-700 dark:text-gray-300">Password: <span className="font-medium">Demo1234!</span></p>
+        </div>
+      )}
+
       {user ? (
         <div className="flex flex-col gap-4">
           <PlaidLink user={user} variant="primary" />
