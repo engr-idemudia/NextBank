@@ -56,11 +56,13 @@ const Sidebar = ({ user }: SiderbarProps) => {
         <PlaidLink user={user} />
       </nav>
 
-      <div className="flex justify-center xl:justify-start px-2 py-2 max-md:hidden">
-        <ThemeToggle />
-      </div>
+      <div className="mt-4 flex flex-col gap-2">
+        <div className="flex justify-center xl:justify-start px-2 py-2 max-md:hidden">
+          <ThemeToggle />
+        </div>
 
-      <Footer user={user} />
+        <Footer user={user} />
+      </div>
     </section>
   );
 };
