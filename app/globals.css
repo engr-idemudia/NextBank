@@ -206,7 +206,7 @@
 
   /* My Banks */
   .transactions {
-    @apply flex max-h-screen w-full flex-col gap-8 overflow-y-scroll bg-gray-25 p-8 xl:py-12;
+    @apply flex max-h-screen w-full min-w-0 flex-col gap-8 overflow-x-hidden overflow-y-scroll bg-gray-25 p-8 xl:py-12;
   }
 
   .transactions-header {
@@ -722,6 +722,7 @@
     overflow-x: auto;
     width: 100%;
     max-width: 100%;
+    white-space: nowrap;
   }
 }
 
@@ -731,7 +732,7 @@
   .home-content,
   .recent-transactions,
   .recent-transactions [role="tabpanel"] {
-    max-width: calc(100vw - 2.5rem) !important;
+    max-width: 100% !important;
     min-width: 0 !important;
   }
 }
@@ -808,3 +809,12 @@
 }
 .dark [role="dialog"] .footer_email-mobile h1 { color: #f3f4f6 !important; }
 .dark [role="dialog"] .footer_email-mobile p { color: #9ca3af !important; }
+
+/* Mobile — root horizontal overflow guard */
+@media (max-width: 1279px) {
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+}
