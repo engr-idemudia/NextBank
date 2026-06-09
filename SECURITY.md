@@ -54,6 +54,14 @@ A separate `postcss` copy is vendored inside `next` itself
 (`node_modules/next/node_modules/postcss`) and is pinned by Next. It will be
 updated when Next.js is, and is covered by the same 14.2.x version policy.
 
+## Status
+
+As of 9 June 2026, the repository has 0 open Dependabot alerts. The undici,
+glob, minimatch, and postcss advisories were fixed via the methods described
+above. The Next.js advisories (and the bundled postcss copy) were dismissed in
+the GitHub Security tab with the reason "a fix has already been started",
+referencing this document — the application is on the patched 14.2.x line.
+
 ## Reporting a Vulnerability
 
 If you discover a security issue in this project, please open an issue or
