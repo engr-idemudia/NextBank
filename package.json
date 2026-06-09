@@ -49,6 +49,8 @@
   "overrides": {
     "node-appwrite": {
       "undici": "^6.24.0"
-    }
+    },
+    "glob": "^10.4.6",
+    "minimatch": "^9.0.7"
   }
 }
