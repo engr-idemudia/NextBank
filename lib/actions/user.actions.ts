@@ -138,8 +138,7 @@ export const logoutAccount = async () => {
 
 export const createLinkToken = async (user: User) => {
   try {
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "";
-    const tokenParams: any = {
+    const tokenParams = {
       user: {
         client_user_id: user.$id,
       },
@@ -148,10 +147,6 @@ export const createLinkToken = async (user: User) => {
       language: "en",
       country_codes: ["US"] as CountryCode[],
     };
-
-    if (siteUrl.startsWith("https://")) {
-      tokenParams.redirect_uri = siteUrl.endsWith("/") ? siteUrl : `${siteUrl}/`;
-    }
 
     const response = await plaidClient.linkTokenCreate(tokenParams);
 
