@@ -1,5 +1,6 @@
 import MobileNav from "@/components/MobileNav";
 import Sidebar from "@/components/Sidebar";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { getLoggedInUser } from "@/lib/actions/user.actions";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -20,7 +21,8 @@ export default async function RootLayout({
       <div className="flex h-full flex-1 min-w-0 flex-col">
         <div className="root-layout">
           <Image src="/icons/logo.svg" width={30} height={30} alt="logo" />
-          <div>
+          <div className="flex items-center gap-5">
+            <ThemeToggle />
             <MobileNav user={loggedIn} />
           </div>
         </div>

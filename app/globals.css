@@ -792,9 +792,12 @@
 /* Mobile menu footer — stacked so nothing competes for width */
 [role="dialog"] .footer {
   display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
   gap: 0.75rem;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 [role="dialog"] .footer_email-mobile {
   flex: none !important;
@@ -809,6 +812,17 @@
 }
 .dark [role="dialog"] .footer_email-mobile h1 { color: #f3f4f6 !important; }
 .dark [role="dialog"] .footer_email-mobile p { color: #9ca3af !important; }
+
+[role="dialog"] .footer_image {
+  position: relative !important;
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  flex: none !important;
+  display: block !important;
+}
+[role="dialog"] .footer_email-mobile {
+  flex: 1 !important;
+}
 
 /* Mobile — root horizontal overflow guard */
 @media (max-width: 1279px) {
