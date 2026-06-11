@@ -46,11 +46,15 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
 
   const { open, ready } = usePlaidLink(config);
 
+  const handleOpen = () => {
+    if (ready) open();
+  };
+
   return (
     <>
       {variant === "addBank" ? (
         <Button
-          onClick={() => open()}
+          onClick={handleOpen}
           disabled={!ready}
           variant="ghost"
           className="flex gap-2 p-0 hover:bg-transparent"
@@ -60,7 +64,7 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
         </Button>
       ) : variant === "primary" ? (
         <Button
-          onClick={() => open()}
+          onClick={handleOpen}
           disabled={!ready}
           className="plaidlink-primary"
         >
@@ -68,7 +72,8 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
         </Button>
       ) : variant === "ghost" ? (
         <Button
-          onClick={() => open()}
+          onClick={handleOpen}
+          disabled={!ready}
           variant="ghost"
           className="plaidlink-ghost"
         >
@@ -83,7 +88,11 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
           </p>
         </Button>
       ) : (
-        <Button onClick={() => open()} className="plaidlink-default">
+        <Button
+          onClick={handleOpen}
+          disabled={!ready}
+          className="plaidlink-default"
+        >
           <Image
             src="/icons/connect-bank.svg"
             alt="connect bank"
