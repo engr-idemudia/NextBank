@@ -76,6 +76,32 @@ export const topCategoryStyles = {
     },
     icon: "/icons/coins.svg",
   },
+  Transfer: {
+    bg: "bg-blue-25",
+    circleBg: "bg-blue-100",
+    text: {
+      main: "text-blue-900",
+      count: "text-blue-700",
+    },
+    progress: {
+      bg: "bg-blue-100",
+      indicator: "bg-blue-700",
+    },
+    icon: "/icons/shopping-bag.svg",
+  },
+  Other: {
+    bg: "bg-pink-25",
+    circleBg: "bg-pink-100",
+    text: {
+      main: "text-pink-900",
+      count: "text-pink-700",
+    },
+    progress: {
+      bg: "bg-pink-100",
+      indicator: "bg-pink-700",
+    },
+    icon: "/icons/monitor.svg",
+  },
   default: {
     bg: "bg-violet-25",
     circleBg: "bg-violet-100",
