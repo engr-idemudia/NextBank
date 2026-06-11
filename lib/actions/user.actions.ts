@@ -246,7 +246,13 @@ export const exchangePublicToken = async ({
       publicTokenExchange: "complete",
     });
   } catch (error) {
-    console.error("An error occurred while creating exchanging token:", error);
+    console.error("EXCHANGE FAILED:", (error as any)?.message);
+    console.error(
+      "EXCHANGE DETAIL:",
+      JSON.stringify(
+        (error as any)?.body || (error as any)?.response?.data || String(error),
+      ),
+    );
   }
 };
 
