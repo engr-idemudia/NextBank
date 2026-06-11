@@ -111,9 +111,15 @@ const AuthForm = ({ type }: { type: string }) => {
 
       {type === "sign-in" && !user && (
         <div className="rounded-lg border border-purple-300 bg-purple-50 px-4 py-3 text-14 dark:border-purple-900 dark:bg-purple-950/40">
-          <p className="font-semibold text-purple-700 dark:text-purple-300">Demo login (Plaid sandbox)</p>
-          <p className="mt-1 text-gray-700 dark:text-gray-300">Email: <span className="font-medium">demo@nextbank.dev</span></p>
-          <p className="text-gray-700 dark:text-gray-300">Password: <span className="font-medium">Demo1234!</span></p>
+          <p className="font-semibold text-purple-700 dark:text-purple-300">
+            Demo login (Plaid sandbox)
+          </p>
+          <p className="mt-1 text-gray-700 dark:text-gray-300">
+            Email: <span className="font-medium">demo@nextbank.dev</span>
+          </p>
+          <p className="text-gray-700 dark:text-gray-300">
+            Password: <span className="font-medium">Demo1234!</span>
+          </p>
         </div>
       )}
 
@@ -197,6 +203,14 @@ const AuthForm = ({ type }: { type: string }) => {
                 label="Password"
                 placeholder="Enter your password"
               />
+
+              {type === "sign-in" && (
+                <div className="flex justify-end -mt-4">
+                  <Link href="/forgot-password" className="form-link text-14">
+                    Forgot password?
+                  </Link>
+                </div>
+              )}
 
               <div className="flex flex-col gap-4">
                 <Button type="submit" disabled={isLoading} className="form-btn">

@@ -638,7 +638,6 @@
   background-color: #1f1f2e !important;
 }
 
-
 /* Dark mode — top categories tiles */
 .dark .banks .space-y-5 > div {
   background-color: #0a0a14 !important;
@@ -726,7 +725,6 @@
   }
 }
 
-
 /* Mobile — hard-constrain content chain to viewport */
 @media (max-width: 1279px) {
   .home-content,
@@ -788,7 +786,6 @@
   color: #f3f4f6 !important;
 }
 
-
 /* Mobile menu footer — stacked so nothing competes for width */
 [role="dialog"] .footer {
   display: flex !important;
@@ -810,8 +807,12 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.dark [role="dialog"] .footer_email-mobile h1 { color: #f3f4f6 !important; }
-.dark [role="dialog"] .footer_email-mobile p { color: #9ca3af !important; }
+.dark [role="dialog"] .footer_email-mobile h1 {
+  color: #f3f4f6 !important;
+}
+.dark [role="dialog"] .footer_email-mobile p {
+  color: #9ca3af !important;
+}
 
 [role="dialog"] .footer_image {
   position: relative !important;
