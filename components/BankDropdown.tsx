@@ -45,7 +45,7 @@ export const BankDropdown = ({
       onValueChange={(value) => handleBankChange(value)}
     >
       <SelectTrigger
-        className={`flex w-full bg-white gap-3 md:w-[300px] ${otherStyles}`}
+        className={`flex w-full bg-white text-gray-900 gap-3 md:w-[300px] dark:bg-gray-800 dark:text-white dark:border-gray-700 ${otherStyles}`}
       >
         <Image
           src="icons/credit-card.svg"
@@ -56,7 +56,7 @@ export const BankDropdown = ({
         <p className="line-clamp-1 w-full text-left">{selected.name}</p>
       </SelectTrigger>
       <SelectContent
-        className={`w-full bg-white md:w-[300px] ${otherStyles}`}
+        className={`w-full bg-white text-gray-900 md:w-[300px] dark:bg-gray-800 dark:text-white dark:border-gray-700 ${otherStyles}`}
         align="end"
       >
         <SelectGroup>
