@@ -23,22 +23,29 @@ const dwollaClient = new Client({
   secret: process.env.DWOLLA_SECRET as string,
 });
 
-// Create a Dwolla Funding Source using a Plaid Processor Token
 export const createFundingSource = async (
   options: CreateFundingSourceOptions,
 ) => {
   try {
-    return await dwollaClient
-      .post(`customers/${options.customerId}/funding-sources`, {
+    const response = await dwollaClient.post(
+      `customers/${options.customerId}/funding-sources`,
+      {
         name: options.fundingSourceName,
         plaidToken: options.plaidToken,
-      })
-      .then((res) => res.headers.get("location"));
-  } catch (err) {
-    console.error(
-      "FUNDING SOURCE FAILED:",
-      JSON.stringify((err as any)?.body || String(err)),
+      },
     );
+
+    return response.headers.get("location");
+  } catch (err: any) {
+    // Plaid sandbox maps `user_good` to the same bank every time, so Dwolla
+    // returns DuplicateResource. Recover the existing funding source URL from
+    // the error body so the bank can still be saved to Appwrite.
+    if (err?.body?.code === "DuplicateResource") {
+      const existingUrl = err?.body?._links?.about?.href;
+      if (existingUrl) return existingUrl;
+    }
+
+    console.error("Creating a Funding Source Failed: ", err);
   }
 };
 
