@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { confirmPasswordRecovery } from "@/lib/actions/user.actions";
+import { confirmPasswordRecovery } from "@/lib/actions/auth.actions";
 
 const ResetPassword = () => {
   const router = useRouter();

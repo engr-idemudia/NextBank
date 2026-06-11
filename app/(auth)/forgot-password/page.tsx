@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { sendPasswordRecovery } from "@/lib/actions/user.actions";
+import { sendPasswordRecovery } from "@/lib/actions/auth.actions";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
