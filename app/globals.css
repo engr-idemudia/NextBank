@@ -156,7 +156,7 @@
   }
 
   .recent-transactions-tablist {
-    @apply custom-scrollbar mb-8 flex w-full flex-nowrap !justify-start;
+    @apply custom-scrollbar mb-8 flex w-full flex-nowrap !justify-start overflow-x-auto;
   }
 
   /* Right sidebar */
@@ -700,7 +700,7 @@
   }
   .recent-transactions {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: hidden;
   }
 }
 
