@@ -17,7 +17,12 @@ A full-stack fintech dashboard for connecting real bank accounts, viewing balanc
 
 **[nextbank.idemudia.dev](https://nextbank.idemudia.dev)**
 
-To explore the linked-bank flow, use Plaid's standard sandbox credentials when prompted:
+A pre-seeded demo account is available for quick exploration:
+
+- Email: `demo@nextbank.dev`
+- Password: `Demo1234!`
+
+To explore the linked-bank flow yourself, use Plaid's standard sandbox credentials when prompted:
 
 - Username: `user_good`
 - Password: `pass_good`
@@ -37,35 +42,37 @@ The project demonstrates end-to-end integration of third-party financial service
 ## Key features
 
 - **Authentication** — secure sign-up and sign-in with server-side session handling via Appwrite.
-- **Bank linking** — connect real bank accounts through the Plaid Link flow, with a Dwolla funding source created for each linked account.
-- **Account dashboard** — consolidated view of connected accounts, total balance, and recent transactions.
+- **Password reset** — a full account-recovery flow (forgot-password and reset-password pages) built on Appwrite's recovery API, with isolated server actions. Note: email delivery requires a custom SMTP provider, which is a paid feature on Appwrite Cloud; the flow itself is fully implemented and verified.
+- **Bank linking** — connect real bank accounts through the Plaid Link flow, with a Dwolla funding source created for each linked account. Duplicate funding sources are handled gracefully by recovering the existing Dwolla resource.
+- **Account dashboard** — consolidated view of connected accounts, total balance, and recent transactions, with top spending categories displayed in distinct colours.
 - **My Banks** — a detailed list of all connected accounts.
-- **Transaction history** — paginated, categorised transactions per account.
+- **Transaction history** — paginated, categorised transactions per account, with an account-selector dropdown to switch between connected banks.
 - **Payment transfer** — send funds to another user using Dwolla ACH transfers.
+- **Report a Bug** — a feedback entry point that opens a pre-filled GitHub issue template (with screenshot drag-and-drop support); rendered as a floating button on desktop and as a menu item on mobile and tablet.
 - **Light & dark mode** — a theme toggle built with next-themes, defaulting to a dark interface.
-- **Responsive UI** — a mobile-first interface built with Tailwind CSS that adapts across mobile, tablet, and desktop.
+- **Responsive UI** — a mobile-first interface built with Tailwind CSS that adapts across mobile, tablet, and desktop, including an icons-only collapsed sidebar at tablet width.
 
 ## Tech stack
 
-| Layer | Technology |
-|---|---|
-| Framework | Next.js 14 (App Router), React, TypeScript |
-| Styling | Tailwind CSS, next-themes |
-| Auth & data | Appwrite (authentication, database) |
-| Bank connectivity | Plaid |
-| Payments | Dwolla (ACH transfers) |
-| Validation | Zod, React Hook Form |
-| Charts | Chart.js |
-| Deployment | Vercel |
+| Layer             | Technology                                 |
+| ----------------- | ------------------------------------------ |
+| Framework         | Next.js 14 (App Router), React, TypeScript |
+| Styling           | Tailwind CSS, next-themes                  |
+| Auth & data       | Appwrite (authentication, database)        |
+| Bank connectivity | Plaid                                      |
+| Payments          | Dwolla (ACH transfers)                     |
+| Validation        | Zod, React Hook Form                       |
+| Charts            | Chart.js                                   |
+| Deployment        | Vercel                                     |
 
 ## Architecture
 
 The application follows the Next.js App Router model, with server actions handling all sensitive operations:
 
-- **Server actions** (`lib/actions/*`) — encapsulate every privileged call (Appwrite reads/writes, Plaid token exchange, Dwolla customer and transfer creation). Secrets never reach the client.
+- **Server actions** (`lib/actions/*`) — encapsulate every privileged call (Appwrite reads/writes, Plaid token exchange, Dwolla customer and transfer creation, password recovery). Secrets never reach the client.
 - **Appwrite backend** — three collections model the domain: `users`, `banks`, and `transactions`.
 - **Plaid** — handles the bank-link handshake and returns access tokens, which are exchanged server-side.
-- **Dwolla** — each linked account is registered as a funding source, enabling transfers between users.
+- **Dwolla** — each linked account is registered as a funding source, enabling transfers between users. The Plaid sandbox maps `user_good` to the same underlying bank account, so Dwolla returns `DuplicateResource` on repeat links; the integration recovers the existing funding-source URL from the error response instead of failing, keeping the connect flow idempotent.
 
 This separation keeps all credentials and tokens on the server, with the client receiving only the data it needs to render.
 
@@ -103,25 +110,25 @@ Create a `.env` file in the project root using `.env.example` as a template, the
 cp .env.example .env
 ```
 
-| Variable | Description |
-|---|---|
-| `NEXT_PUBLIC_SITE_URL` | Base URL of the app (e.g. `http://localhost:3000`) |
-| `NEXT_PUBLIC_APPWRITE_ENDPOINT` | Appwrite API endpoint |
-| `NEXT_PUBLIC_APPWRITE_PROJECT` | Appwrite project ID |
-| `APPWRITE_DATABASE_ID` | Appwrite database ID |
-| `APPWRITE_USER_COLLECTION_ID` | Users collection ID |
-| `APPWRITE_BANK_COLLECTION_ID` | Banks collection ID |
-| `APPWRITE_TRANSACTION_COLLECTION_ID` | Transactions collection ID |
-| `NEXT_APPWRITE_KEY` | Appwrite server API key (Auth + Databases scopes) |
-| `PLAID_CLIENT_ID` | Plaid client ID |
-| `PLAID_SECRET` | Plaid sandbox secret |
-| `PLAID_ENV` | Plaid environment (`sandbox`) |
-| `PLAID_PRODUCTS` | Requested Plaid products (e.g. `auth,transactions`) |
-| `PLAID_COUNTRY_CODES` | Supported country codes (e.g. `US,CA`) |
-| `DWOLLA_KEY` | Dwolla API key |
-| `DWOLLA_SECRET` | Dwolla API secret |
-| `DWOLLA_BASE_URL` | Dwolla API base URL (`https://api-sandbox.dwolla.com`) |
-| `DWOLLA_ENV` | Dwolla environment (`sandbox`) |
+| Variable                             | Description                                            |
+| ------------------------------------ | ------------------------------------------------------ |
+| `NEXT_PUBLIC_SITE_URL`               | Base URL of the app (e.g. `http://localhost:3000`)     |
+| `NEXT_PUBLIC_APPWRITE_ENDPOINT`      | Appwrite API endpoint                                  |
+| `NEXT_PUBLIC_APPWRITE_PROJECT`       | Appwrite project ID                                    |
+| `APPWRITE_DATABASE_ID`               | Appwrite database ID                                   |
+| `APPWRITE_USER_COLLECTION_ID`        | Users collection ID                                    |
+| `APPWRITE_BANK_COLLECTION_ID`        | Banks collection ID                                    |
+| `APPWRITE_TRANSACTION_COLLECTION_ID` | Transactions collection ID                             |
+| `NEXT_APPWRITE_KEY`                  | Appwrite server API key (Auth + Databases scopes)      |
+| `PLAID_CLIENT_ID`                    | Plaid client ID                                        |
+| `PLAID_SECRET`                       | Plaid sandbox secret                                   |
+| `PLAID_ENV`                          | Plaid environment (`sandbox`)                          |
+| `PLAID_PRODUCTS`                     | Requested Plaid products (e.g. `auth,transactions`)    |
+| `PLAID_COUNTRY_CODES`                | Supported country codes (e.g. `US,CA`)                 |
+| `DWOLLA_KEY`                         | Dwolla API key                                         |
+| `DWOLLA_SECRET`                      | Dwolla API secret                                      |
+| `DWOLLA_BASE_URL`                    | Dwolla API base URL (`https://api-sandbox.dwolla.com`) |
+| `DWOLLA_ENV`                         | Dwolla environment (`sandbox`)                         |
 
 > Never commit your `.env` file. Treat any credential that reaches version control as compromised and rotate it.
 
@@ -135,18 +142,17 @@ The app will be available at `http://localhost:3000`.
 
 ## Project structure
 
-```
 NextBank/
-|-- app/                 # App Router routes (auth + dashboard)
-|   |-- (auth)/          # Sign-in / sign-up
-|   `-- (root)/          # Dashboard, my-banks, transaction-history, payment-transfer
-|-- components/          # Reusable UI components
-|-- lib/
-|   |-- actions/         # Server actions (Appwrite, Plaid, Dwolla)
-|   `-- utils.ts         # Helpers and formatters
-|-- public/              # Static assets (icons, screenshots)
-`-- .env.example         # Environment variable template
-```
+
+|-- app/ # App Router routes (auth + dashboard)
+
+| |-- (auth)/ # Sign-in / sign-up / forgot-password / reset-password
+
+| -- (root)/ # Dashboard, my-banks, transaction-history, payment-transfer |-- components/ # Reusable UI components |-- lib/ | |-- actions/ # Server actions (Appwrite, Plaid, Dwolla, auth recovery) | -- utils.ts # Helpers and formatters
+
+|-- public/ # Static assets (icons, screenshots)
+
+`-- .env.example # Environment variable template
 
 ## Author
 
