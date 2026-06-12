@@ -8,6 +8,8 @@ import { usePathname } from "next/navigation";
 import Footer from "./Footer";
 import PlaidLink from "./PlaidLink";
 import { ThemeToggle } from "./ThemeToggle";
+import { Megaphone } from "lucide-react";
+import { repoIssueUrl } from "./ReportBug";
 
 const Sidebar = ({ user }: SiderbarProps) => {
   const pathname = usePathname();
@@ -53,13 +55,23 @@ const Sidebar = ({ user }: SiderbarProps) => {
           );
         })}
 
-        <PlaidLink user={user} />
+        <PlaidLink user={user} variant="ghost" />
       </nav>
 
       <div className="mt-4 flex flex-col gap-2">
         <div className="flex justify-center xl:justify-start px-2 py-2 max-md:hidden">
           <ThemeToggle />
         </div>
+
+        <a
+          href={repoIssueUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 px-2 py-2 text-14 font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white xl:justify-start lg:hidden"
+        >
+          <Megaphone size={20} />
+          <p className="max-xl:hidden">Report a Bug</p>
+        </a>
 
         <Footer user={user} />
       </div>

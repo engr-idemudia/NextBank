@@ -16,6 +16,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Footer from "./Footer";
 import PlaidLink from "./PlaidLink";
+import { Megaphone } from "lucide-react";
+import { repoIssueUrl } from "./ReportBug";
 
 const MobileNav = ({ user }: MobileNavProps) => {
   const pathname = usePathname();
@@ -86,6 +88,17 @@ const MobileNav = ({ user }: MobileNavProps) => {
                 })}
                 <div className="flex flex-col items-start gap-4 pt-4">
                   <PlaidLink user={user} />
+
+                  <a
+                    href={repoIssueUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mobilenav-sheet_close flex w-full items-center gap-2 text-16 font-semibold text-black-2 dark:text-white"
+                  >
+                    <Megaphone size={20} />
+                    Report a Bug
+                  </a>
+
                   <Footer user={user} type="mobile" />
                 </div>
               </nav>
