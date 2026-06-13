@@ -47,7 +47,11 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
   const { open, ready } = usePlaidLink(config);
 
   const handleOpen = () => {
-    if (ready) open();
+    if (ready) {
+      // Persist the link token so the OAuth redirect page can re-initialise Link
+      sessionStorage.setItem("plaid_link_token", token);
+      open();
+    }
   };
 
   return (

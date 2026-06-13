@@ -146,6 +146,7 @@ export const createLinkToken = async (user: User) => {
       products: ["auth", "transactions"] as Products[],
       language: "en",
       country_codes: ["US"] as CountryCode[],
+      redirect_uri: `${process.env.NEXT_PUBLIC_SITE_URL}/plaid-oauth`,
     };
 
     const response = await plaidClient.linkTokenCreate(tokenParams);
