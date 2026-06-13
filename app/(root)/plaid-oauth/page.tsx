@@ -7,28 +7,25 @@ import {
   usePlaidLink,
 } from "react-plaid-link";
 import { useRouter } from "next/navigation";
-import {
-  exchangePublicToken,
-  getLoggedInUser,
-} from "@/lib/actions/user.actions";
+import { exchangePublicToken } from "@/lib/actions/user.actions";
 
 const PlaidOAuthPage = () => {
   const router = useRouter();
 
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const init = async () => {
-      // Recover the link token stored before Link opened
-      const storedToken = sessionStorage.getItem("plaid_link_token");
-      const loggedInUser = await getLoggedInUser();
+    // Recover the token and user stored before Link opened.
+    // Both are read synchronously from sessionStorage, so there is no
+    // network race: by the time Link is ready, user is already present.
+    const storedToken = sessionStorage.getItem("plaid_link_token");
+    const storedUser = sessionStorage.getItem("plaid_user");
 
-      setToken(storedToken);
-      setUser(loggedInUser);
-    };
-
-    init();
+    setToken(storedToken);
+    setUser(storedUser ? JSON.parse(storedUser) : null);
+    setHydrated(true);
   }, []);
 
   const onSuccess = useCallback<PlaidLinkOnSuccess>(
@@ -41,6 +38,7 @@ const PlaidOAuthPage = () => {
       });
 
       sessionStorage.removeItem("plaid_link_token");
+      sessionStorage.removeItem("plaid_user");
       router.push("/");
     },
     [user, router],
@@ -57,8 +55,12 @@ const PlaidOAuthPage = () => {
   const { open, ready } = usePlaidLink(config);
 
   useEffect(() => {
-    if (ready) open();
-  }, [ready, open]);
+    // Only open once everything is in place: storage hydrated, token and
+    // user recovered, and Link fully initialised.
+    if (hydrated && token && user && ready) {
+      open();
+    }
+  }, [hydrated, token, user, ready, open]);
 
   return (
     <section className="flex-center size-full">

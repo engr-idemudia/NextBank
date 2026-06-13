@@ -36,7 +36,7 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
 
       router.push("/");
     },
-    [user],
+    [user, router],
   );
 
   const config: PlaidLinkOptions = {
@@ -48,8 +48,10 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
 
   const handleOpen = () => {
     if (ready) {
-      // Persist the link token so the OAuth redirect page can re-initialise Link
+      // Persist both token and user so the OAuth redirect page can
+      // re-initialise Link and complete the exchange without a network call
       sessionStorage.setItem("plaid_link_token", token);
+      sessionStorage.setItem("plaid_user", JSON.stringify(user));
       open();
     }
   };
