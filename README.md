@@ -29,6 +29,8 @@ To explore the linked-bank flow yourself, use Plaid's standard sandbox credentia
 
 > The application runs against the **sandbox** environments of Plaid and Dwolla. No real money moves; sandbox transfers settle in a simulated "processing" state, mirroring real ACH timing.
 
+> **Demo availability** — The backend runs on Appwrite's free tier, which automatically pauses a project after seven days of inactivity. A paused project does not resume on its own, so if the sign-in page rejects the valid demo credentials, the backend is simply asleep rather than broken. For an always-available walkthrough, a recorded demo is embedded on the portfolio at [idemudia.dev](https://idemudia.dev). This is a deliberate cost trade-off for a portfolio project rather than a production deployment, where continuous availability would warrant a paid plan.
+
 ## Overview
 
 NextBank is a single-page banking experience that brings several financial APIs together behind a clean dashboard. A user signs up, securely links one or more real bank accounts through Plaid, and can then view consolidated balances, browse categorised transaction history, and send funds to another user via Dwolla's ACH rails.
