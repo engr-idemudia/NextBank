@@ -110,9 +110,15 @@ const AuthForm = ({ type }: { type: string }) => {
       </header>
 
       {type === "sign-in" && !user && (
-        <div className="rounded-lg border border-purple-300 bg-purple-50 px-4 py-3 text-14 dark:border-purple-900 dark:bg-purple-950/40">
+        <div
+          onClick={() => {
+            form.setValue("email", "demo@nextbank.dev");
+            form.setValue("password", "Demo1234!");
+          }}
+          className="cursor-pointer rounded-lg border border-purple-300 bg-purple-50 px-4 py-3 text-14 transition hover:bg-purple-100 dark:border-purple-900 dark:bg-purple-950/40 dark:hover:bg-purple-950/60"
+        >
           <p className="font-semibold text-purple-700 dark:text-purple-300">
-            Demo login (Plaid sandbox)
+            Demo login (Plaid sandbox) — click to fill the form
           </p>
           <p className="mt-1 text-gray-700 dark:text-gray-300">
             Email: <span className="font-medium">demo@nextbank.dev</span>
