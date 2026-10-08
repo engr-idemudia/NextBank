@@ -25,7 +25,7 @@
     "next-themes": "^0.4.6",
     "node-appwrite": "^12.0.1",
     "plaid": "^23.0.0",
-    "query-string": "^9.0.0",
+    "query-string": "^9.5.1",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
     "react-countup": "^6.5.3",
@@ -41,15 +41,18 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.2.3",
-    "postcss": "^8.5.15",
-    "tailwindcss": "^3.4.1",
+    "eslint-config-next": "14.2.35",
+    "postcss": "^8.5.29",
+    "tailwindcss": "3.4.17",
     "typescript": "^5"
   },
   "overrides": {
     "node-appwrite": {
-      "undici": "^6.24.0"
+      "undici": "^6.29.0"
     },
+    "axios": "^1.20.0",
+    "nanoid": "^3.3.20",
+    "postcss": "^8.5.29",
     "glob": "^10.4.6",
     "minimatch": "^9.0.7"
   }
