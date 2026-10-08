@@ -44,7 +44,16 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
     onSuccess,
   };
 
-  const { open, ready } = usePlaidLink(config);
+  const { open, ready, error } = usePlaidLink(config);
+
+  // Plaid Link loads a script from cdn.plaid.com, which ad blockers often
+  // block. Explain this instead of leaving a button that silently does nothing.
+  const blockedMessage = error ? (
+    <p className="text-12 text-red-500">
+      Plaid could not load. It is often blocked by ad blockers. Disable yours
+      for this site to connect a sandbox bank.
+    </p>
+  ) : null;
 
   const handleOpen = () => {
     if (ready) {
@@ -108,6 +117,7 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
           <p className="text-[16px] font-semibold text-black-2">Connect bank</p>
         </Button>
       )}
+      {blockedMessage}
     </>
   );
 };

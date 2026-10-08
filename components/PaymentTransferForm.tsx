@@ -10,6 +10,7 @@ import * as z from "zod";
 import { createTransfer } from "@/lib/actions/dwolla.actions";
 import { createTransaction } from "@/lib/actions/transaction.actions";
 import { getBank, getBankByAccountId } from "@/lib/actions/user.actions";
+import { isDemoFundingSource } from "@/lib/demo-data";
 import { decryptId } from "@/lib/utils";
 
 import { BankDropdown } from "./BankDropdown";
@@ -59,13 +60,26 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
       });
       const senderBank = await getBank({ documentId: data.senderBank });
 
+      if (!receiverBank || !senderBank) {
+        throw new Error("Sender or receiver bank account not found");
+      }
+
       const transferParams = {
         sourceFundingSourceUrl: senderBank.fundingSourceUrl,
         destinationFundingSourceUrl: receiverBank.fundingSourceUrl,
         amount: data.amount,
       };
+
+      // Transfers involving a demo bank are simulated and only recorded in
+      // Appwrite; transfers between real Plaid-linked banks go through Dwolla
+      const isSimulatedTransfer =
+        isDemoFundingSource(senderBank.fundingSourceUrl) ||
+        isDemoFundingSource(receiverBank.fundingSourceUrl);
+
       // create transfer
-      const transfer = await createTransfer(transferParams);
+      const transfer = isSimulatedTransfer
+        ? true
+        : await createTransfer(transferParams);
 
       // create transfer transaction
       if (transfer) {

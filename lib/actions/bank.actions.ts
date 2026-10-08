@@ -1,60 +1,82 @@
 "use server";
 
-import {
-  ACHClass,
-  CountryCode,
-  TransferAuthorizationCreateRequest,
-  TransferCreateRequest,
-  TransferNetwork,
-  TransferType,
-} from "plaid";
+import { CountryCode } from "plaid";
 
 import { plaidClient } from "../plaid";
 import { parseStringify } from "../utils";
+import {
+  getDemoAccount,
+  getDemoTransactions,
+  isDemoBank,
+} from "../demo-data";
 
 import { getTransactionsByBankId } from "./transaction.actions";
 import { getBanks, getBank } from "./user.actions";
+
+// Get one bank's account details from Plaid
+const getPlaidAccount = async (bank: Bank): Promise<Account> => {
+  // get account info from plaid
+  const accountsResponse = await plaidClient.accountsGet({
+    access_token: bank.accessToken,
+  });
+  const accountData = accountsResponse.data.accounts[0];
+
+  // get institution info from plaid
+  const institution = await getInstitution({
+    institutionId: accountsResponse.data.item.institution_id!,
+  });
+
+  return {
+    id: accountData.account_id,
+    availableBalance: accountData.balances.available!,
+    currentBalance: accountData.balances.current!,
+    institutionId: institution?.institution_id,
+    name: accountData.name,
+    officialName: accountData.official_name!,
+    mask: accountData.mask!,
+    type: accountData.type as string,
+    subtype: accountData.subtype! as string,
+    appwriteItemId: bank.$id,
+    shareableId: bank.shareableId,
+  };
+};
 
 // Get multiple bank accounts
 export const getAccounts = async ({ userId }: getAccountsProps) => {
   try {
     // get banks from db
-    const banks = await getBanks({ userId });
+    const banks: Bank[] = (await getBanks({ userId })) ?? [];
 
-    const accounts = await Promise.all(
-      banks?.map(async (bank: Bank) => {
-        // get each account info from plaid
-        const accountsResponse = await plaidClient.accountsGet({
-          access_token: bank.accessToken,
-        });
-        const accountData = accountsResponse.data.accounts[0];
+    // Demo banks first, so the default view loads instantly without Plaid
+    const orderedBanks = [
+      ...banks.filter((bank) => isDemoBank(bank)),
+      ...banks.filter((bank) => !isDemoBank(bank)),
+    ];
 
-        // get institution info from plaid
-        const institution = await getInstitution({
-          institutionId: accountsResponse.data.item.institution_id!,
-        });
-
-        const account = {
-          id: accountData.account_id,
-          availableBalance: accountData.balances.available!,
-          currentBalance: accountData.balances.current!,
-          institutionId: institution.institution_id,
-          name: accountData.name,
-          officialName: accountData.official_name,
-          mask: accountData.mask!,
-          type: accountData.type as string,
-          subtype: accountData.subtype! as string,
-          appwriteItemId: bank.$id,
-          shareableId: bank.shareableId,
-        };
-
-        return account;
-      })
+    // Load each bank independently: one failing Plaid item (for example an
+    // expired sandbox token) must not blank the whole dashboard
+    const results = await Promise.allSettled(
+      orderedBanks.map(async (bank) =>
+        isDemoBank(bank) ? getDemoAccount(bank) : getPlaidAccount(bank),
+      ),
     );
+
+    const accounts: Account[] = [];
+
+    results.forEach((result, index) => {
+      if (result.status === "fulfilled" && result.value) {
+        accounts.push(result.value);
+      } else if (result.status === "rejected") {
+        console.error(
+          `Skipping bank ${orderedBanks[index].$id}: could not load it from Plaid.`,
+          result.reason,
+        );
+      }
+    });
 
     const totalBanks = accounts.length;
     const totalCurrentBalance = accounts.reduce((total, account) => {
-      return total + account.currentBalance;
+      return total + (account.currentBalance ?? 0);
     }, 0);
 
     return parseStringify({ data: accounts, totalBanks, totalCurrentBalance });
@@ -69,18 +91,12 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
     // get bank from db
     const bank = await getBank({ documentId: appwriteItemId });
 
-    // get account info from plaid
-    const accountsResponse = await plaidClient.accountsGet({
-      access_token: bank.accessToken,
-    });
-    const accountData = accountsResponse.data.accounts[0];
-
     // get transfer transactions from appwrite
     const transferTransactionsData = await getTransactionsByBankId({
       bankId: bank.$id,
     });
 
-    const transferTransactions = transferTransactionsData.documents.map(
+    const transferTransactions = (transferTransactionsData?.documents ?? []).map(
       (transferData: Transaction) => ({
         id: transferData.$id,
         name: transferData.name!,
@@ -89,34 +105,27 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
         paymentChannel: transferData.channel,
         category: transferData.category,
         type: transferData.senderBankId === bank.$id ? "debit" : "credit",
-      })
+      }),
     );
 
-    // get institution info from plaid
-    const institution = await getInstitution({
-      institutionId: accountsResponse.data.item.institution_id!,
-    });
+    let account: Account | null;
+    let transactions: any[];
 
-    const transactions = await getTransactions({
-      accessToken: bank?.accessToken,
-    });
+    if (isDemoBank(bank)) {
+      // static demo data, no Plaid call
+      account = getDemoAccount(bank);
+      transactions = getDemoTransactions(bank);
+    } else {
+      account = await getPlaidAccount(bank);
+      transactions =
+        (await getTransactions({ accessToken: bank.accessToken })) ?? [];
+    }
 
-    const account = {
-      id: accountData.account_id,
-      availableBalance: accountData.balances.available!,
-      currentBalance: accountData.balances.current!,
-      institutionId: institution.institution_id,
-      name: accountData.name,
-      officialName: accountData.official_name,
-      mask: accountData.mask!,
-      type: accountData.type as string,
-      subtype: accountData.subtype! as string,
-      appwriteItemId: bank.$id,
-    };
+    if (!account) throw new Error(`No account details for bank ${bank.$id}`);
 
     // sort transactions by date such that the most recent transaction is first
-      const allTransactions = [...transactions, ...transferTransactions].sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    const allTransactions = [...transactions, ...transferTransactions].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
     );
 
     return parseStringify({
