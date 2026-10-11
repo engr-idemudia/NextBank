@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
 
+// Next.js 15: route params and search params are passed as Promises
 declare type SearchParamProps = {
-  params: { [key: string]: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ [key: string]: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 // ========================================
