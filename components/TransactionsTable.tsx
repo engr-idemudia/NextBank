@@ -11,10 +11,11 @@ import { transactionCategoryStyles } from "@/constants";
 import {
   cn,
   formatAmount,
-  formatDateTime,
   getTransactionStatus,
   removeSpecialCharacters,
 } from "@/lib/utils";
+
+import LocalDateTime from "./LocalDateTime";
 
 const CategoryBadge = ({ category }: CategoryBadgeProps) => {
   const { borderColor, backgroundColor, textColor, chipBackgroundColor } =
@@ -80,7 +81,7 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
                 </TableCell>
 
                 <TableCell className="min-w-32 pl-2 pr-2 md:pr-10">
-                  {formatDateTime(new Date(t.date)).dateTime}
+                  <LocalDateTime value={t.date} />
                 </TableCell>
 
                 <TableCell className="pl-2 pr-2 md:pr-10 capitalize min-w-24">
