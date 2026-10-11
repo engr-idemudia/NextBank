@@ -7,7 +7,8 @@ import { getLoggedInUser } from "@/lib/actions/user.actions";
 
 import { redirect } from "next/navigation";
 
-const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
+const Home = async ({ searchParams }: SearchParamProps) => {
+  const { id, page } = await searchParams;
   const currentPage = Number(page as string) || 1;
   const loggedIn = await getLoggedInUser();
 
