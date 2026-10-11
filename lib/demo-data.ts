@@ -13,6 +13,15 @@
 export const DEMO_ACCESS_TOKEN_PREFIX = "demo-";
 export const DEMO_FUNDING_SOURCE_PREFIX = "demo://";
 
+// Real Plaid sandbox banks on the shared demo account that must stay in place,
+// so the live Plaid and Dwolla integration can always be demonstrated.
+// Values are Appwrite bank document IDs. Seeded demo banks are protected
+// separately through isDemoBank().
+export const PROTECTED_BANK_IDS: readonly string[] = [
+  "6abd17f2000dec2ccf58", // Plaid Checking (holds the Dwolla demo transfer)
+  "6ac7fe090008bab685c3", // Plaid Saving (US Bank)
+];
+
 type DemoAccountDetails = Omit<Account, "appwriteItemId" | "shareableId">;
 
 type DemoTransactionTemplate = {
@@ -82,6 +91,11 @@ export const isDemoBank = (bank?: Partial<Bank> | null) =>
   typeof bank?.accessToken === "string" &&
   bank.accessToken.startsWith(DEMO_ACCESS_TOKEN_PREFIX);
 
+// Demo banks and the protected Plaid banks cannot be removed.
+export const isProtectedBank = (bank?: Partial<Bank> | null) =>
+  isDemoBank(bank) ||
+  (typeof bank?.$id === "string" && PROTECTED_BANK_IDS.includes(bank.$id));
+
 // Used on the client, where only the funding source URL is needed.
 export const isDemoFundingSource = (url?: string | null) =>
   typeof url === "string" && url.startsWith(DEMO_FUNDING_SOURCE_PREFIX);
@@ -94,6 +108,7 @@ export const getDemoAccount = (bank: Bank): Account | null => {
     ...details,
     appwriteItemId: bank.$id,
     shareableId: bank.shareableId,
+    isProtected: true,
   };
 };
 

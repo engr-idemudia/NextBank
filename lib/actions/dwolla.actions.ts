@@ -122,3 +122,14 @@ export const addFundingSource = async ({
     console.error("Transfer fund failed: ", err);
   }
 };
+
+// Remove (soft-delete) a Dwolla funding source by its URL
+export const removeFundingSource = async (fundingSourceUrl: string) => {
+  try {
+    await dwollaClient.post(fundingSourceUrl, { removed: true });
+    return true;
+  } catch (err) {
+    console.error("Removing a Funding Source Failed: ", err);
+    return false;
+  }
+};

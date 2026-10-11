@@ -62,6 +62,8 @@ declare type Account = {
   subtype: string;
   appwriteItemId: string;
   shareableId: string;
+  // true for demo banks and protected Plaid banks, which cannot be removed
+  isProtected?: boolean;
 };
 
 declare type Transaction = {
