@@ -1,17 +1,22 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { Query } from "node-appwrite";
 import { CountryCode } from "plaid";
 
+import { createAdminClient } from "../appwrite";
 import { plaidClient } from "../plaid";
 import { parseStringify } from "../utils";
 import {
   getDemoAccount,
   getDemoTransactions,
   isDemoBank,
+  isProtectedBank,
 } from "../demo-data";
 
 import { getTransactionsByBankId } from "./transaction.actions";
-import { getBanks, getBank } from "./user.actions";
+import { removeFundingSource } from "./dwolla.actions";
+import { getBanks, getBank, getLoggedInUser } from "./user.actions";
 
 // Get one bank's account details from Plaid
 const getPlaidAccount = async (bank: Bank): Promise<Account> => {
@@ -38,6 +43,7 @@ const getPlaidAccount = async (bank: Bank): Promise<Account> => {
     subtype: accountData.subtype! as string,
     appwriteItemId: bank.$id,
     shareableId: bank.shareableId,
+    isProtected: isProtectedBank(bank),
   };
 };
 
@@ -193,5 +199,79 @@ export const getTransactions = async ({
     return parseStringify(transactions);
   } catch (error) {
     console.error("An error occurred while getting the accounts:", error);
+  }
+};
+
+// Remove a linked bank: revoke Plaid access, remove the Dwolla funding source
+// and delete the Appwrite record. Demo and protected banks cannot be removed.
+export const removeBank = async ({
+  appwriteItemId,
+}: {
+  appwriteItemId: string;
+}): Promise<{ success: boolean; message: string }> => {
+  try {
+    const user = await getLoggedInUser();
+    if (!user) return { success: false, message: "Please sign in again." };
+
+    const bank = await getBank({ documentId: appwriteItemId });
+    if (!bank) return { success: false, message: "Bank not found." };
+
+    // userId may come back as a plain ID or as the related user document
+    const ownerId =
+      typeof bank.userId === "string" ? bank.userId : bank.userId?.$id;
+    if (ownerId !== user.$id) {
+      return { success: false, message: "You can only remove your own banks." };
+    }
+
+    if (isProtectedBank(bank)) {
+      return {
+        success: false,
+        message: "This is a demo bank and cannot be removed.",
+      };
+    }
+
+    const {
+      APPWRITE_DATABASE_ID: DATABASE_ID,
+      APPWRITE_BANK_COLLECTION_ID: BANK_COLLECTION_ID,
+    } = process.env;
+    const { database } = await createAdminClient();
+
+    // Plaid sandbox can link the same account more than once, and Dwolla then
+    // reuses the existing funding source. Only revoke what no other bank record
+    // still uses, so protected banks keep working.
+    const [sameToken, sameFunding] = await Promise.all([
+      database.listDocuments(DATABASE_ID!, BANK_COLLECTION_ID!, [
+        Query.equal("accessToken", [bank.accessToken]),
+      ]),
+      database.listDocuments(DATABASE_ID!, BANK_COLLECTION_ID!, [
+        Query.equal("fundingSourceUrl", [bank.fundingSourceUrl]),
+      ]),
+    ]);
+
+    if (sameToken.total <= 1) {
+      try {
+        await plaidClient.itemRemove({ access_token: bank.accessToken });
+      } catch (error) {
+        // An expired or already-removed item should not block removal
+        console.warn("Plaid item could not be removed:", error);
+      }
+    }
+
+    if (sameFunding.total <= 1 && bank.fundingSourceUrl) {
+      await removeFundingSource(bank.fundingSourceUrl);
+    }
+
+    await database.deleteDocument(DATABASE_ID!, BANK_COLLECTION_ID!, bank.$id);
+
+    revalidatePath("/");
+    revalidatePath("/my-banks");
+
+    return { success: true, message: "Bank removed." };
+  } catch (error) {
+    console.error("An error occurred while removing the bank:", error);
+    return {
+      success: false,
+      message: "Something went wrong. Please try again.",
+    };
   }
 };
