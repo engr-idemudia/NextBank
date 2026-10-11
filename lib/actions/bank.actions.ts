@@ -177,7 +177,10 @@ export const getTransactions = async ({
         paymentChannel: transaction.payment_channel,
         type: transaction.payment_channel,
         accountId: transaction.account_id,
-        amount: transaction.amount,
+        // Plaid reports money leaving the account as a positive amount.
+        // Flip the sign so spending is negative (red) and income positive (green),
+        // matching the demo data and how the transactions table colours amounts.
+        amount: -transaction.amount,
         pending: transaction.pending,
         category: transaction.category ? transaction.category[0] : "",
         date: transaction.date,
